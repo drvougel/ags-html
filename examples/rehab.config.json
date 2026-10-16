@@ -1,0 +1,45 @@
+// Beispiel: Konfiguration eines grossen, deutschsprachigen Mehrteiler-Adventures (Tumbleweed-Vorlage, 640x360,
+// mehrere Sprachpakete, Hinweissystem). Enthaelt nur Struktur – keine Spielinhalte (Titel, Texte, Figurennamen).
+// Die Spiel-Hooks (Sprite-Slots, Raumliste, Sprachpakete, Hinweise) liegen im Spielprojekt (rehab.hooks.mjs); siehe docs/HOOKS.md.
+// Titel/Texte der Startseite werden in einer eigenen Konfiguration ergaenzt: { "extends": "<dieser Pfad>", "page": { … } }
+{
+  "gameDir": "game",
+  "outDir": "html",
+  "roomsDir": "art/rooms",
+  "musicFile": "scumm/musik/musik.json",
+  "castFile": "scumm/cast.json",
+  "spriteSheetsDir": "art/sprites2",
+  "hooks": "./rehab.hooks.mjs",
+  "scripts": {
+    "headerOrder": ["verbgui.ash", "optiongui.ash", "Duell.ash", "GlobalScript.ash"],
+    "globalOrder": ["Duell.asc", "verbgui.asc", "optiongui.asc", "GlobalScript.asc"],
+    "extraTypes": ["DuellGegner", "DuellSprecher", "DuellEreignis", "eGlobCond"],
+    "extraBlockingFuncs": ["Touch_Act", "Touch_CoinExec", "Touch_RowTap", "Touch_Tap", "Touch_DragEnd"]
+  },
+  "floatNames": ["scroll_btn_delay"],
+  "speechFallbackDirs": ["scumm/speech/e1", "scumm/speech/e2", "scumm/speech/e3", "scumm/speech/e4", "scumm/speech/e5", "scumm/speech/hint"],
+  "runtime": {
+    "storagePrefix": "rehab",
+    "saveFormat": "rehab-spielstand",
+    "assetBase": "../",
+    "spriteFallbackDir": "art/export/sprites",
+    "noAutosaveRooms": [5],
+    "autosaveMinRoom": 3,
+    "introDoneVar": "gIntroFertig",
+    "fallbackRoom": { "background": "art/x2/e1/intro/bg.png", "walkable": "art/rooms/intro.walk.png", "hotspotMask": "art/rooms/intro.hot.png" },
+    "quitUrl": "../web/index.html",
+    "speechFallbackVox": ["hint"],
+    "verbsGoToFix": true,
+    "tumbleweed": { "language": "eLangDE", "actionLabelColor": [39, 50, 78], "slotSprite": 81, "slotSpriteHi": 96 },
+    "preload": {
+      "core": [77, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 95, 96, 97, 98, 99, 100],
+      "restRanges": [[306, 357], [500, 539]]
+    }
+  },
+  "page": { "lang": "de", "accent": "#f6e08a", "fontFamily": "monospace", "noindex": true },
+  "bundle": {
+    "engineDir": "html",
+    "roots": ["art", "scumm"],
+    "copy": [{ "from": "web/icons", "to": "icons" }, { "from": "web/assets", "to": "assets" }]
+  }
+}

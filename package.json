@@ -1,0 +1,23 @@
+{
+  "name": "ags-html",
+  "version": "0.1.0",
+  "description": "Run Adventure Game Studio 3.6 games directly in the browser (HTML5 canvas, no ScummVM): project exporter, script translator, engine runtime.",
+  "license": "GPL-3.0-or-later",
+  "type": "module",
+  "bin": {
+    "ags-html": "bin/ags-html.mjs"
+  },
+  "scripts": {
+    "test": "node --test test/idiv.test.mjs test/pipeline.test.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "bin",
+    "runtime",
+    "tools",
+    "examples",
+    "docs"
+  ]
+}

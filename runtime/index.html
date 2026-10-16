@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later; Copyright (C) 2026 drvougel. Vorlage: Platzhalter {{…}} setzt `ags-html bundle`. -->
+<html lang="{{lang}}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+{{metaRobots}}<title>{{title}}</title>
+<meta name="theme-color" content="#000000">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+{{iconLinks}}
+<style>
+{{fontFace}}* {
+  box-sizing: border-box;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+  position: fixed;               /* kein Scrollen / Gummiband-Effekt auf dem Handy */
+  touch-action: none;            /* kein Zoom durch Doppeltipp / Zwicken */
+  overscroll-behavior: none;
+  -webkit-text-size-adjust: 100%;
+  font-family: {{fontStack}};
+  color: {{accent}};
+}
+#start {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  overflow: hidden;
+  background: #000;
+}
+#stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1280px;
+  height: 720px;
+  margin: -360px 0 0 -640px;
+  transform: scale(var(--s, 1));
+  background: #0a0c14 {{titleUrl}} 0 0 / 1280px 720px no-repeat;
+  image-rendering: pixelated;
+}
+#stage h1 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 70px;
+  margin: 0;
+  text-align: center;
+  font-weight: normal;
+  font-size: 128px;
+  line-height: 1.05;
+  color: {{accent}};
+  text-shadow: 6px 6px 0 #2b1600, -3px 0 0 #000, 3px 0 0 #000, 0 -3px 0 #000, 0 3px 0 #000;
+}
+#go {
+  position: absolute;
+  left: 50%;
+  bottom: 110px;
+  transform: translateX(-50%);
+  min-width: 520px;
+  padding: 16px 40px;
+  font: inherit;
+  font-size: 60px;
+  color: {{accent}};
+  background: rgba(0, 0, 0, 0.82);
+  border: 6px solid {{accent}};
+  cursor: pointer;
+  animation: blink 1.2s steps(2, jump-none) infinite;
+}
+#go:hover {
+  background: rgba(35, 28, 10, 0.92);
+}
+#go:disabled {
+  visibility: hidden;
+}
+@keyframes blink {
+  50% { opacity: 0.65; }
+}
+#viewport {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+}
+#screen {
+  width: 640px;
+  height: 360px;
+  background: #000;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: pixelated;
+  cursor: none;
+  touch-action: none;
+  display: block;
+}
+#loading {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  z-index: 25;
+  font-size: 28px;
+  color: {{accent}};
+  background: rgba(0, 0, 0, 0.85);
+  padding: 6px 18px;
+  border: 2px solid {{accent}};
+  pointer-events: none;
+}
+#loading[hidden], #start[hidden] {
+  display: none !important;
+}
+#rotate {
+  /* Hochformat: Leinwand fuellt die Breite, nur ein Hinweis darunter (kein Sperrbildschirm mehr) */
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 12px;
+  z-index: 30;
+  pointer-events: none;
+  color: {{accent}};
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  font-size: 26px;
+  text-align: center;
+  padding: 0 16px;
+}
+#rotate p {
+  margin: 0;
+}
+#rotate .phone {
+  width: 22px;
+  height: 38px;
+  border: 3px solid {{accent}};
+  border-radius: 4px;
+  animation: turn 2.4s ease-in-out infinite;
+}
+@keyframes turn {
+  0%, 20% { transform: rotate(0); }
+  50%, 85% { transform: rotate(-90deg); }
+  100% { transform: rotate(0); }
+}
+@media (orientation: portrait) and (pointer: coarse) {
+  #rotate { display: flex; }
+}
+</style>
+</head>
+<body>
+<div id="start">
+  <div id="stage">
+    <h1>{{heading}}</h1>
+    <button id="go" type="button">{{startText}}</button>
+  </div>
+</div>
+
+<div id="viewport">
+  <canvas id="screen" width="640" height="360"></canvas>
+</div>
+
+<div id="loading" hidden>{{loadingText}}</div>
+<div id="rotate" lang="{{lang}}"><div class="phone"></div><p>{{rotateText}}</p></div>
+
+<script type="module" src="./engine.js"></script>
+<script>
+  // Offline nach dem ersten Besuch (Geltungsbereich = Ordner dieser Seite)
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(() => {});
+</script>
+</body>
+</html>
